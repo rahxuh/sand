@@ -57,8 +57,8 @@ public class DFFLoader extends RWFile {
 			if (!(readHeader(stream).getChunkName().equals("GEOMETRY_LIST"))) throw new IOException();
 			Geometry[] geoms = readGeometryList();
 			
-			model.setFrameList(frames);
 			model.setGeometryList(geoms);
+			model.setFrameList(frames);
 			
 			Atomic[] atoms = new Atomic[clump[0]];
 			for (int a = 0; a < clump[0]; a++) {
@@ -572,9 +572,15 @@ public class DFFLoader extends RWFile {
 						}
 						for (int n = 0; n < 4; n++) {
 							for (int m = 0; m < 4; m++) {
-								transform[b][n][m] = FileData.readFloat32(stream); 
+								transform[b][n][m] = FileData.readFloat32(stream);
 							}
 						}
+
+						// for some reason the bone matrices have the last col as 0 0 0 0, not 0 0 0 1
+						transform[b][0][3] = 0;
+						transform[b][1][3] = 0;
+						transform[b][2][3] = 0;
+						transform[b][3][3] = 1;
 					}
 					
 					// bone group remapping
