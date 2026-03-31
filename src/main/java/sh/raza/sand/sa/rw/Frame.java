@@ -11,6 +11,7 @@ public class Frame extends ExtChunk {
 	private float[] position;
 	private int frameIndex;
 	private int flags;
+	private float[] ltm;
 	
 	public Frame() {
 		matrix = new float[3][3];
@@ -89,5 +90,26 @@ public class Frame extends ExtChunk {
 	
 	public void setFrameIndex(int idx) {
 		frameIndex = idx;
+	}
+	
+	public float[] getMM() {
+		float[] rot = getRotationAs1d();
+		
+		float[] transform = new float[] {
+				rot[0], rot[1], rot[2], 0,
+				rot[3], rot[4], rot[5], 0,
+				rot[6], rot[7], rot[8], 0,
+				position[0], position[1], position[2], 1
+		};
+
+		return transform; 
+	}
+	
+	public float[] getLTM() {
+		return ltm;
+	}
+	
+	public void setLTM(float[] lcltfm) {
+		ltm = lcltfm;
 	}
 }
