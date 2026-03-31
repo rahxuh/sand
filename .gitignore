@@ -33,3 +33,5 @@ forge*changelog.txt
 *.txd
 *.ifp
 models/
+
+research/
